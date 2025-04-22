@@ -25,12 +25,3 @@ def fetch_titles(subreddit_name: str, limit: int = 100):
 
     return titles
 
-# Test
-if __name__ == "__main__":
-    titles = fetch_titles("finance", limit=10)
-    for i, title in enumerate(titles, start=1):
-        print(f"{i}. {title}")
-
-fetch_titles("stocks")
-fetch_titles("finance")
-fetch_titles("economics")

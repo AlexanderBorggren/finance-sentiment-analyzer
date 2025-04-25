@@ -1,11 +1,10 @@
 from transformers import pipeline
 
-finbert = pipeline("sentiment-analysis", model="ProsusAI/finbert", tokenizer="ProsusAI/finbert")
+fin_sentiment_analyser = pipeline("sentiment-analysis", model="ProsusAI/finbert", tokenizer="ProsusAI/finbert")
 
 def analyze_sentiment(titles: list[str]) -> list[dict]:
     
-    output = finbert(titles)
-    print(output)
+    output = fin_sentiment_analyser(titles)
 
     sentiment_map = {
         "positive": "bull",

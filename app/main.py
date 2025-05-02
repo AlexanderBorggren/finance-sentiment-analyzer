@@ -1,6 +1,6 @@
 from fetcher.reddit_client import fetch_titles
 from analyzer.sentiment_model import analyze_sentiment
-from analyzer.summarizer import summarize_sentiments, generate_summary
+from analyzer.summarizer import summarize_sentiments, generate_summary, generate_natural_summary
 from analyzer.filter_data import filter_data
 
 def main():
@@ -21,6 +21,8 @@ def main():
     print("Summerizing the data..")
     summerized_data = summarize_sentiments(analyzed_data)
     print(generate_summary(summerized_data))
+
+    print(generate_natural_summary(summerized_data))
     
 
 if __name__ == "__main__":

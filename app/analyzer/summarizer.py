@@ -1,11 +1,23 @@
 from collections import Counter
 from datetime import datetime
 from typing import List, Dict
+from transformers import pipeline
+import torch
+import os
+from huggingface_hub import login
+from dotenv import load_dotenv
 
 
 SECOND_THIRD_THRESHOLD = 0.15
 TOP_SECOND_THRESHOLD = 0.2
 
+load_dotenv()
+hf_token = os.getenv("HUGGING_FACE_ACCESS_TOKEN")
+
+if not hf_token:
+    raise ValueError("HuggingFace access token missing")
+
+login(token=hf_token)
 
 def summarize_sentiments(sentiments: List[Dict]) -> Dict:
     counts = Counter(item["sentiment"] for item in sentiments)
@@ -75,3 +87,26 @@ def generate_summary(summary_data: Dict) -> str:
         f"...:::{generate_conclusion(bull, neutral, bear)}:::...\n"
     )
     return summary
+
+
+def generate_natural_summary(summary: Dict) -> str:
+    model_id = "meta-llama/Llama-4-Scout-17B-16E"
+    
+    pipe = pipeline(
+        "text-generation",
+        model=model_id,
+        device_map="auto",
+        torch_dtype=torch.bfloat16,
+    )
+    
+    prompt = (
+        "You are a helpful AI that pretends to be a news anchor. "
+        "Your mission is to summarize financial data in natural language for your viewers. "
+        f"This is the data: {summary}"
+    )
+    
+    output = pipe(prompt, max_new_tokens=300, do_sample=True, temperature=0.7)
+    
+    response = output[0]["generated_text"]
+    print("\nAssistant Response:\n", response)
+    return response

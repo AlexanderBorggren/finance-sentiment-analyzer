@@ -13,13 +13,18 @@ def test_upload_to_blob_json(mock_blob_service_client):
     mock_blob_service.get_blob_client.return_value = mock_blob_client
 
     test_data = {"sentiment": "bull", "confidence": 0.83}
+    summary_text = "dummy_summary"
+    expected_payload = {
+        "summary": summary_text,
+        "data": test_data
+    }
 
-    upload_to_blob(test_data, filetype=".json")
+    upload_to_blob(test_data, summary_text=summary_text, filetype=".json")
 
     mock_blob_service_client.from_connection_string.assert_called()
     mock_blob_service.get_blob_client.assert_called()
     mock_blob_client.upload_blob.assert_called_once()
 
     uploaded_arg = mock_blob_client.upload_blob.call_args[0][0]
-    assert json.loads(uploaded_arg) == test_data
-    print("Unit-test: upload_to_blob ran succesfully with mocked blob-service.")
+    assert json.loads(uploaded_arg) == expected_payload
+    print("Unit-test: upload_to_blob ran successfully with mocked blob-service.")

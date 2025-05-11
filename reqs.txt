@@ -1,0 +1,10 @@
+transformers
+praw
+dotenv
+huggingface
+azure_cli
+azure-storage-blob
+torch
+hf_xet
+mlx-lm
+pytest

@@ -20,6 +20,4 @@ def analyze_sentiment(titles: list[str]) -> list[dict]:
             "sentiment": sentiment
         })
 
-
-
     return results

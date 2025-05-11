@@ -1,7 +1,8 @@
 from fetcher.reddit_client import fetch_titles
 from analyzer.sentiment_model import analyze_sentiment
-from analyzer.summarizer import summarize_sentiments, generate_summary, generate_natural_summary
+from analyzer.summarizer import summarize_sentiments, generate_summary
 from analyzer.filter_data import filter_data
+from azure_cloud.blob_storage import upload_to_blob
 
 def main():
     subreddits = ["finance", "stocks", "economics"]
@@ -20,10 +21,9 @@ def main():
 
     print("Summerizing the data..")
     summerized_data = summarize_sentiments(analyzed_data)
-    print(generate_summary(summerized_data))
-
-    print(generate_natural_summary(summerized_data))
-    
+    summary_text = generate_summary(summerized_data)
+    print(summary_text)
+    upload_to_blob(summerized_data, summary_text)  
 
 if __name__ == "__main__":
     main()

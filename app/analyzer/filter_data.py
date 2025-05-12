@@ -1,11 +1,10 @@
 from transformers import pipeline
 
-data_filter_model = pipeline("zero-shot-classification",
-model="knowledgator/comprehend_it-base")
-
 def filter_data(titles: list[str]) -> list[dict]:
 
-
+    data_filter_model = pipeline("zero-shot-classification",
+    model="knowledgator/comprehend_it-base")
+    
     candidate_labels=[
         "relevant to economics or finance",
         "irrelevant to economics or finance"

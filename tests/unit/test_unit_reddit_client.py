@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 from app.fetcher.reddit_client import fetch_titles
 
+@pytest.mark.unit
 @patch("app.fetcher.reddit_client.reddit")
 def test_fetch_titles_success(mock_reddit):
     mock_post = MagicMock()

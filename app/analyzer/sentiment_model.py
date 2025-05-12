@@ -1,8 +1,8 @@
 from transformers import pipeline
 
-fin_sentiment_analyser = pipeline("sentiment-analysis", model="ProsusAI/finbert", tokenizer="ProsusAI/finbert")
-
 def analyze_sentiment(titles: list[str]) -> list[dict]:
+
+    fin_sentiment_analyser = pipeline("sentiment-analysis", model="ProsusAI/finbert", tokenizer="ProsusAI/finbert")
     
     output = fin_sentiment_analyser(titles)
 

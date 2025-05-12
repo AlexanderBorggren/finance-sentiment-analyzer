@@ -10,7 +10,7 @@ load_dotenv()
 def current_date_filename():
     return datetime.today().strftime("%Y-%m-%d")
 
-def upload_to_blob(data: dict, summary_text: str, filetype: str = ".json"):
+def upload_to_blob(data: dict, summary_text: str, sources_used: dict, filetype: str = ".json"):
     try:
         connect_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
         if not connect_str:
@@ -24,7 +24,8 @@ def upload_to_blob(data: dict, summary_text: str, filetype: str = ".json"):
 
         payload = {
             "summary": summary_text,
-            "data": data
+            "data": data,
+            "sources": sources_used
         }
         json_data = json.dumps(payload, indent=2)
         blob_client.upload_blob(json_data, overwrite=True)

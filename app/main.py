@@ -5,13 +5,21 @@ from analyzer.filter_data import filter_data
 from azure_cloud.blob_storage import upload_to_blob
 
 def main():
-    subreddits = ["finance", "stocks", "economics"]
+    sources = [
+    {"platform": "Reddit", "channel": "finance"},
+    {"platform": "Reddit", "channel": "stocks"},
+    {"platform": "Reddit", "channel": "economics"}
+    ]    
     all_titles = []
+    sources_used = []
 
-    for subreddit in subreddits:
-        print(f"Fetching from r/{subreddit}...")
-        titles = fetch_titles(subreddit)
-        all_titles.extend(titles)
+    for source in sources:
+        if source["platform"] == "Reddit":
+            subreddit = source["channel"]
+            print(f"Fetching from r/{subreddit}...")
+            titles = fetch_titles(subreddit)
+            all_titles.extend(titles)
+            sources_used.append(source)
 
     print("Filtering relevant titles..")
     filtered_data = filter_data(all_titles)
@@ -24,7 +32,8 @@ def main():
     generated_conclusion_string = generate_conclusion(summerized_data)
     summary_text = generate_summary(summerized_data, generated_conclusion_string)
     print(summary_text)
-    upload_to_blob(summerized_data, summary_text)  
+
+    upload_to_blob(summerized_data, summary_text, sources_used)  
 
 if __name__ == "__main__":
     main()

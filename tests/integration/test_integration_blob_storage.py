@@ -1,11 +1,8 @@
-import os
 import json
+import os
+from datetime import datetime
 import pytest
 from azure.storage.blob import BlobServiceClient
-from datetime import datetime
-from dotenv import load_dotenv
-
-load_dotenv()
 
 def current_date_filename():
     return datetime.today().strftime("%Y-%m-%d")
@@ -23,9 +20,17 @@ def test_upload_to_blob():
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
 
     json_data = json.dumps(test_data, indent=2)
-    blob_client.upload_blob(json_data, overwrite=True)
 
-    exists = blob_client.exists()
-    assert exists, "Error: Blob not uploaded properly."
+    try:
+        blob_client.upload_blob(json_data, overwrite=True)
 
-    print("Integration-test: Upload to Azure Blob success") 
+        assert blob_client.exists(), "Error: Blob not uploaded properly."
+
+        downloaded = blob_client.download_blob().readall()
+        downloaded_data = json.loads(downloaded)
+        assert downloaded_data == test_data, "Error: Uploaded blob content mismatch."
+
+        print("Integration-test: Upload to Azure Blob success")
+
+    finally:
+        blob_client.delete_blob()

@@ -77,7 +77,7 @@ def test_generate_summary_output_format():
         f"Bullish: 20 (20.0%)\n"
         f"Neutral: 50 (50.0%)\n"
         f"Bearish: 30 (30.0%)\n\n"
-        f"...:::{conclusion}:::...\n"
+        f"{conclusion}\n"
     )
 
     result = generate_summary(summary_data, conclusion)

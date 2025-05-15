@@ -82,6 +82,6 @@ def generate_summary(summary_data: Dict, conclusion: str) -> str:
         f"Bullish: {bull} ({percent(bull)}%)\n"
         f"Neutral: {neutral} ({percent(neutral)}%)\n"
         f"Bearish: {bear} ({percent(bear)}%)\n\n"
-        f"...:::{conclusion}:::...\n"
+        f"{conclusion}\n"
     )
     return summary

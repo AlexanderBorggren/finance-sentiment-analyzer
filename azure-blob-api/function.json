@@ -1,0 +1,16 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "http",
+      "direction": "in",
+      "name": "req",
+      "route": "fetch_summary"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    }
+  ]
+}
